@@ -45,6 +45,7 @@ class Turret {
         this.shortCircuit = false;
         this.scCount = 0;
         this.plural = "";
+        this.color = color(255, 255, 255);
     }
 
     draw() {
@@ -192,6 +193,7 @@ class Turret {
                 }
             }
         }
+        this.onDestroy();
     }
 
     equipGizmo(gizmo, slot) {
@@ -282,6 +284,14 @@ class Turret {
 
     getPluralName() {
         return this.plural == "" ? this.name + "s" : this.plural;
+    }
+
+    onDestroy() {
+        for (let i = 0; i < 7; i++) {
+            let r = random(0, 360);
+            let p = new ScrapParticle(scrapBit, this.x, this.y, random(0, 360), 2, 1.75 * cos(r), 1.75 * sin(r), 0, -0.6, 0.3, this.color);
+            addParticle(p);
+        }
     }
 }
 

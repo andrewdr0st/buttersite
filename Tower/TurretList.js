@@ -108,6 +108,7 @@ class Cannon extends Turret {
     constructor() {
         super("Cannon", cannon, 7, 10, 1, 200, bullet, 14, 10);
         this.description = "A basic turret.";
+        this.color = color(220, 50, 50);
     }
 }
 
@@ -115,6 +116,7 @@ class MachineGunner extends Turret {
     constructor() {
         super("Machine Gun", repeater, 6, 6, 0.25, 400, bullet, 14, 10);
         this.description = "Fires very quickly, but deals little damage.";
+        this.color = color(20, 170, 220);
     }
     
 }
@@ -123,6 +125,7 @@ class Sniper extends Turret {
     constructor() {
         super("Sniper", sniper, 12, 45, 3, 300, smallBullet, 24, 7);
         this.description = "Deals large damage over a long range.";
+        this.color = color(50, 50, 50);
         //this.dmgText = " \u0D9E"
     }
 }
@@ -131,6 +134,7 @@ class TriShooter extends Turret {
     constructor() {
         super("Tri-Shooter", triShooter, 7, 10, 1.25, 350, smallBullet, 14, 7);
         this.description = "Fires three shots at once.";
+        this.color = color(220, 50, 50);
         this.dmgText = " \u00D7 3";
     }
 
@@ -150,6 +154,7 @@ class Shotgunner extends Turret {
         super("Shotgunner", shotgunner, 6, 12, 2.25, 600, smallBullet, 12, 7);
         this.pLifespan = 0.5;
         this.description = "Fires a spread of bullets over a short range.";
+        this.color = color(195, 100, 10);
         this.dmgText = " \u00D7 8";
     }
 
@@ -167,6 +172,7 @@ class Sentry extends Turret {
         super("Sentry", sentry, 10, 18, 0.5, 700, bullet, 18, 10);
         this.description = "Attacks quickly over a large range.";
         this.plural = "Sentries";
+        this.color = color(50, 50, 50);
     }
 }
 
@@ -174,6 +180,7 @@ class Shockwave extends Turret {
     constructor() {
         super("Shockwave", shockwaveT, 4, 10, 1.5, 450, shockwave, 12, 0.8);
         this.description = "Damages all enemies in range."
+        this.color = color(140, 60, 130);
         this.canRotate = false;
         this.areaProjectile = true;
     }
@@ -183,6 +190,7 @@ class Stinger extends Turret {
     constructor() {
         super("Stinger", stinger, 9, 7, 1.5, 250, sting, 20, 9);
         this.description = "Attacks can pierce through enemies.";
+        this.color = color(210, 210, 60);
         this.pierce = true;
     }
 }
@@ -191,6 +199,7 @@ class MiniCannon extends Turret {
     constructor() {
         super("Mini Cannon", miniCannon, 5, 5, 0.75, 100, smallBullet, 13, 7);
         this.description = "Very cheap, but very weak.";
+        this.color = color(220, 50, 50);
     }
 }
 
@@ -198,6 +207,7 @@ class Bruiser extends Turret {
     constructor() {
         super("Bruiser", bruiser, 7, 50, 1.5, 500, bullet, 14, 10);
         this.description = "Deals heavy damage.";
+        this.color = color(220, 50, 50);
     }
 }
 
@@ -205,6 +215,7 @@ class GrowthCannon extends Turret {
     constructor() {
         super("Growth Cannon", growthCannon, 8, 14, 0.75, 400, bullet, 16, 10);
         this.description = "Gets stronger after each wave.";
+        this.color = color(10, 200, 140);
     }
 
     startOfTurn() {
@@ -220,6 +231,7 @@ class WaveBreaker extends Turret {
         this.canRotate = false;
         this.areaProjectile = true;
         this.description = "Damages all enemies in a large range.";
+        this.color = color(20, 170, 220);
     }
 }
 
@@ -229,6 +241,7 @@ class ChargeBlaster extends Turret {
         this.charges = 4;
         this.spriteList = [chargeBlaster0, chargeBlaster1, chargeBlaster2, chargeBlaster3];
         this.description = "Can only fire four times each wave.";
+        this.color = color(50, 50, 50);
     }
 
     startOfTurn() {
@@ -254,6 +267,7 @@ class IceBlaster extends Turret {
     constructor() {
         super("Ice Blaster", iceBlaster, 8, 25, 2, 350, snowball, 18, 9);
         this.description = "Attacks slow down enemies.";
+        this.color = color(50, 110, 230);
         this.slow = 6;
     }
 
@@ -270,6 +284,7 @@ class SnowballLauncher extends Turret {
         super("Snowballer", snowballLauncher, 8, 7, 0.75, 800, snowball, 18, 9);
         this.pLifespan = 0.8;
         this.description = "Launches a spread of snowballs that slow enemies.";
+        this.color = color(230, 230, 230);
         this.dmgText = " \u00D7 4";
         this.slow = 1.5;
         this.storeCost = 2;
@@ -289,6 +304,7 @@ class Glubba extends Turret {
     constructor() {
         super("Glubba", glubba, 10, 12, 0.25, 900, gooBall, 20, 8);
         this.description = "Quickly fires goo that ignores enemy armor.";
+        this.color = color(150, 40, 150);
         this.storeCost = 2;
         this.ignoreArmor = true;
     }
@@ -297,7 +313,8 @@ class Glubba extends Turret {
 class BigShot extends Turret {
     constructor() {
         super("Big Shot", bigShot, 5, 120, 3.5, 400, bigBullet, 12, 14);
-        this.description = "Deals absurd damage but fires slowly."
+        this.description = "Deals absurd damage but fires slowly.";
+        this.color = color(150, 30, 30);
     }
 }
 
@@ -305,6 +322,7 @@ class ShootingStar extends Turret {
     constructor() {
         super("Shooting Star", shootingStar, 10, 20, 1.75, 750, starBullet, 21, 10);
         this.description = "Fires a powerful piercing star.";
+        this.color = color(210, 210, 60);
         this.pierce = true;
     }
 }
@@ -312,14 +330,16 @@ class ShootingStar extends Turret {
 class UltimateWeapon extends Turret {
     constructor() {
         super("Ultimate Weapon", ultimateWeapon, 12, 18, 0.25, 1250, bullet, 25, 10);
-        this.description = "Destroys everything it sees."
+        this.description = "Destroys everything it sees.";
+        this.color = color(20, 170, 220);
     }
 }
 
 class Splitter extends Turret {
     constructor() {
         super("Splitter", splitter, 6, 18, 1.25, 300, bullet, 18, 10);
-        this.description = "Bullets split into two half damage bullets on impact."
+        this.description = "Bullets split into two half damage bullets on impact.";
+        this.color = color(230, 30, 120);
     }
 
     createProjectile() {
@@ -331,7 +351,8 @@ class Splitter extends Turret {
 class Firecracker extends Turret {
     constructor() {
         super("Firecracker", firecracker, 9, 32, 1.5, 750, firework, 24, 8);
-        this.description = "Fires rockets that burst into many sparks."
+        this.description = "Fires rockets that burst into many sparks.";
+        this.color = color(230, 30, 120);
         this.pLifespan = 0.25;
         this.sparkDamage = 8;
         this.minSparks = 20;
@@ -355,6 +376,7 @@ class Gazer extends Turret {
     constructor() {
         super("Gazer", gazer, 16, 20, 1, 500, smallBullet, 24, 7);
         this.description = "Has an enormous range.";
+        this.color = color(40, 90, 140);
     }
 }
 
@@ -362,6 +384,7 @@ class PrototypeY extends Turret {
     constructor() {
         super("Prototype Y", prototypeY, 7, 15, 1, 150, smallBullet, 14, 7);
         this.description = "Utilizes a strange aiming method.";
+        this.color = color(220, 50, 50);
         this.dmgText = " \u00D7 3";
         this.canRotate = false;
         this.storeCost = 1;
@@ -388,6 +411,7 @@ class ScrapCannon extends Turret {
     constructor() {
         super("Scrap Cannon", scrapCannon, 6, 12, 1.25, 200, smallBullet, 14, 7);
         this.description = "Falls apart after three waves.";
+        this.color = color(80, 40, 10);
         this.dmgText = " \u00D7 2";
         this.lifespan = 3;
         this.canSell = false;
@@ -406,18 +430,13 @@ class ScrapCannon extends Turret {
 
     startOfTurn() {
         this.lifespan--;
-        console.log(this.lifespan);
         if (this.lifespan <= 0) {
             for (let i = 0; i < turrets.length; i++) {
                 let t = turrets[i];
                 if (t.x == this.x && t.y == this.y) {
                     turrets.splice(i, 1);
                     removePlacement(t.x, t.y);
-                    for (let i = 0; i < 7; i++) {
-                        let r = random(0, 360);
-                        let p = new Particle(scrapBit, this.x, this.y, random(0, 360), 2, 2 * cos(r), 2 * sin(r), 0, -0.5, 0.35);
-                        addParticle(p);
-                    }
+                    this.onDestroy();
                     break;
                 }
             }
@@ -430,6 +449,7 @@ class MiningRig extends Turret {
     constructor() {
         super("Mining Rig", miningRig, 4, 28, 1.75, 450, bullet, 14, 10);
         this.description = "Produces 75 tidbits each wave.";
+        this.color = color(50, 50, 50);
         this.storeCost = 3;
     }
 
@@ -443,6 +463,7 @@ class HeatBlaster extends Turret {
     constructor() {
         super("Heat Blaster", heatBlaster, 6, 36, 1.5, 700, heatBullet, 16, 10);
         this.description = "Fire rate increases after each shot.";
+        this.color = color(50, 50, 50);
         this.storeCost = 2;
         this.heatVal = 50;
         this.heatChange = 0;

@@ -32,6 +32,17 @@ class Particle {
     }
 }
 
+class ScrapParticle extends Particle {
+    constructor(sprite, x, y, r, s, xVel, yVel, rChange, sChange, lifespan, c) {
+        super(sprite, x, y, r, s, xVel, yVel, rChange, sChange, lifespan);
+        this.c = c;
+    }
+
+    draw() {
+        drawObjectScaledArgs(this.sprite, this.x, this.y, this.r, this.s, this.c);
+    }
+}
+
 function runParticles() {
     for (let i = 0; i < particles.length; i++) {
         if (!particles[i].active) {
@@ -60,8 +71,8 @@ function trapStun() {
     ellipse(0, 0, 60, 60);
 }
 
-function scrapBit() {
-    fill(80, 40, 10);
+function scrapBit(c) {
+    fill(c);
     triangle(0, -4, -4, 2, 3, 3);
 }
 
