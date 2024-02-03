@@ -884,10 +884,20 @@ class TransmissionButton extends Button {
         rect(this.x, this.y, this.w, this.h, 10 * uiScale);
         fill(30, 30, 30);
         textSize(this.tChoice.textSize * uiScale);
-        if (this.tChoice.polygons == 0) {
+        if (this.tChoice.supply > 0) {
+            textAlign(RIGHT, CENTER);
+            text(this.tChoice.getText(), this.x + this.w / 2 - 5 * uiScale, this.y + this.h / 2);
+            if (this.tChoice.supply == 1) {
+                drawSprite(polygonIcon, this.x + this.w * 0.6, this.y + this.h / 2 - uiScale * 3, 0, uiScale * 1.4);
+            } else if (this.tChoice.supply == 2) {
+                drawSprite(tidbitIcon, this.x + this.w * 0.6, this.y + this.h / 2 - uiScale * 3, 0, uiScale * 1.5);
+            } else {
+                drawSprite(livesIcon, this.x + this.w * 0.6, this.y + this.h / 2 - uiScale * 3, 0, uiScale * 1.4);
+            }
+        } else if (this.tChoice.polygons == 0) {
             textAlign(CENTER, CENTER);
             text(this.tChoice.getText(), this.x + 5 * uiScale, this.y + 5 * uiScale, this.w - 10 * uiScale, this.h - 10 * uiScale);
-        } else {
+        }  else {
             textAlign(CENTER, TOP);
             text(this.tChoice.getText(), this.x + 5 * uiScale, this.y + 12 * uiScale, this.w - 10 * uiScale, this.h - 10 * uiScale);
             textAlign(CENTER, CENTER);

@@ -11,6 +11,7 @@ var currentTransmission;
 var commonTransmissions = [];
 var rareTransmissions = [];
 var enemyTransmissionCount = 0;
+var rareTransmissionGot = false;
 
 function drawTransmission() {
     if (!showTransmission) {
@@ -43,15 +44,32 @@ function drawTransmission() {
             tTiming = 0;
             let wVal = tBoxW * 0.1 * uiScale;
             let hVal = tBoxH * 0.1 * uiScale;
-            let tChoice1 = getTransmissionChoice(currentTransmission.choices[0], currentTransmission.tower, currentTransmission.enemy);
-            let tChoice2 = getTransmissionChoice(currentTransmission.choices[1], currentTransmission.tower, currentTransmission.enemy)
-            let tChoice3 = getTransmissionChoice(currentTransmission.choices[2], currentTransmission.tower, currentTransmission.enemy)
-            let b1 = new TransmissionButton(tBoxX * uiScale + wVal * 0.25, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice1);
-            addButton(b1);
-            let b2 = new TransmissionButton(tBoxX * uiScale + wVal * 3.5, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice2);
-            addButton(b2);
-            let b3 = new TransmissionButton(tBoxX * uiScale + wVal * 6.75, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice3);
-            addButton(b3);
+            let tChoice1;
+            let tChoice2;
+            let tChoice3;
+            tChoice1 = getTransmissionChoice(currentTransmission.choices[0], currentTransmission.tower, currentTransmission.enemy);
+            if (currentTransmission.choices.length > 1) {
+                tChoice2 = getTransmissionChoice(currentTransmission.choices[1], currentTransmission.tower, currentTransmission.enemy);
+            }
+            if (currentTransmission.choices.length > 2) {
+                tChoice3 = getTransmissionChoice(currentTransmission.choices[2], currentTransmission.tower, currentTransmission.enemy);
+            }
+            if (currentTransmission.choices.length == 1) {
+                let b1 = new TransmissionButton(tBoxX * uiScale + wVal * 3.5, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice1);
+                addButton(b1);
+            } else if (currentTransmission.choices.length == 2) {
+                let b1 = new TransmissionButton(tBoxX * uiScale + wVal * 1.75, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice1);
+                addButton(b1);
+                let b2 = new TransmissionButton(tBoxX * uiScale + wVal * 5.25, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice2);
+                addButton(b2);
+            } else {
+                let b1 = new TransmissionButton(tBoxX * uiScale + wVal * 0.25, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice1);
+                addButton(b1);
+                let b2 = new TransmissionButton(tBoxX * uiScale + wVal * 3.5, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice2);
+                addButton(b2);
+                let b3 = new TransmissionButton(tBoxX * uiScale + wVal * 6.75, (tBoxY + tBoxH) * uiScale - hVal * 2.75, wVal * 3, hVal * 2.5, tChoice3);
+                addButton(b3);
+            }
         }
     } else {
         fill(20, 190, 50);
@@ -76,22 +94,23 @@ function setupTransmission() {
     tBoxH = 140;
     tTiming = 0;
     //pickTransmission();
-    currentTransmission = new RitualTransmission();
+    currentTransmission = new CheaperMinersTransmission();
 }
 
 function pickTransmission() {
     if (currentPlanet == 0) {
         currentTransmission = new StartTransmission();
     } else if (currentPlanet == 5) {
-        
+        currentTransmission = new FinalTransmission();
     } else {
         let r = random(0, 1);
         if (r < 0.4 && enemyTransmissionCount < 2) {
             currentTransmission = new EnemyBonusTransmission();
             enemyTransmissionCount++;
-        } else if (r > 0.9) {
+        } else if (r > 0.85 && !rareTransmissionGot) {
             currentTransmission = rareTransmissions[0];
             rareTransmissions.splice(0, 1);
+            rareTransmissionGot = true;
         } else {
             currentTransmission = commonTransmissions[0];
             commonTransmissions.splice(0, 1);
@@ -100,9 +119,9 @@ function pickTransmission() {
 }
 
 function setupTransmissions() {
-    commonTransmissions = [new TowerConvertTransmission()];
+    commonTransmissions = [new TowerConvertTransmission(), new EnergyTransmission()];
     commonTransmissions = shuffle(commonTransmissions);
-    rareTransmissions = [new RitualTransmission()];
+    rareTransmissions = [new RitualTransmission(), new HealthWealthTransmission()];
     rareTransmissions = shuffle(rareTransmissions);
 }
 
@@ -132,6 +151,13 @@ class StartTransmission extends Transmission {
     }
 }
 
+class FinalTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "Captain, you've reached the heart of enemy's base. The DEFENDAGON is ready to begin its detonation sequence. If you can survive for 10 waves, the DEFENDAGON should be properly primed and will be able to demolish the entire sector. The galaxy is counting on you.";
+    }
+}
+
 class TowerConvertTransmission extends Transmission {
     constructor() {
         super();
@@ -139,6 +165,22 @@ class TowerConvertTransmission extends Transmission {
         let t = this.tower.getPluralName();
         this.text = "It appears your " + t + " could be repurposed to mine a nearby asteroid for polygons. However, this would put them our of comission for a bit.";
         this.choices = [9, 10, 0];
+    }
+}
+
+class EnergyTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "This planet contains gysers spouting raw energy. Perhaps that energy could be channeled to forge a polygon or some tidbits. It could even be used to generate some life force.";
+        this.choices = [17, 18, 19];
+    }
+}
+
+class CheaperMinersTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "An odd, but durable material is scatterd around the planet. Some testing shows that it could be used to reduce the cost of building miners. It could also easily be converted into a polygon.";
+        this.choices = [20, 17];
     }
 }
 
@@ -157,6 +199,14 @@ class RitualTransmission extends Transmission {
         super();
         this.text = "This planet was once controlled by an ancient cult. Perhaps you could sacrifice some of your towers to harness the power left behind by the ancient civilization.";
         this.choices = [14, 13, 0];
+    }
+}
+
+class HealthWealthTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "You recieve a message from an unown source. It says \"Which of these dertermines one\'s success? Wealth? Health? Or perahaps true success is found in a balance of both?\" Maybe a new outlook on your mission could change the odds in your favor.";
+        this.choices = [15, 16, 0];
     }
 }
 
@@ -200,6 +250,18 @@ function getTransmissionChoice(id, tower, enemy) {
         return new RitualChoice();
     } else if (id == 14) {
         return new DeadlyRitualChoice();
+    } else if (id == 15) {
+        return new WealthChoice();
+    } else if (id == 16) {
+        return new HealthChoice();
+    } else if (id == 17) {
+        return new PolygonSupplyChoice();
+    } else if (id == 18) { 
+        return new TidbitSupplyChoice();
+    } else if (id == 19) {
+        return new HealthSupplyChoice();
+    } else if (id == 20) {
+        return new CheapMinersChoice();
     }
 }
 
@@ -208,6 +270,7 @@ class TransmissionChoice {
     constructor() {
         this.textSize = 26;
         this.polygons = 0;
+        this.supply = 0;
     }
 
     getText() {
@@ -388,4 +451,86 @@ class DeadlyRitualChoice extends TransmissionChoice {
         ritual = 5;
     }
 }
+
+class WealthChoice extends TransmissionChoice {
+    getText() {
+        return "Double your tidbits and set your life count to 1";
+    }
+
+    effect() {
+        changeLives(-(lives - 1));
+        tidbits *= 2;
+    }
+}
+
+class HealthChoice extends TransmissionChoice {
+    getText() {
+        return "Lose all of your tidbits and set your life count to 50";
+    }
+
+    effect() {
+        changeLives(50 - lives);
+        tidbits = 0;
+    }
+}
+
+class PolygonSupplyChoice extends TransmissionChoice {
+    constructor() {
+        super();
+        this.supply = 1;
+        this.textSize = 30;
+    }
+
+    getText() {
+        return "+1";
+    }
+
+    effect() {
+        polygons++;
+    }
+}
+
+class TidbitSupplyChoice extends TransmissionChoice {
+    constructor() {
+        super();
+        this.supply = 2;
+        this.textSize = 30;
+    }
+
+    getText() {
+        return "+100";
+    }
+
+    effect() {
+        tidbits += 100;
+    }
+}
+
+class HealthSupplyChoice extends TransmissionChoice {
+    constructor() {
+        super();
+        this.supply = 3;
+        this.textSize = 30;
+    }
+
+    getText() {
+        return "+10";
+    }
+
+    effect() {
+        changeLives(10);
+    }
+}
+
+class CheapMinersChoice extends TransmissionChoice {
+    getText() {
+        return "Miners cost 50 less on this planet";
+    }
+
+    effect() {
+        ownedTowers[0].cost -= 50;
+        ownedTowers[0].baseCost -= 50;
+    }
+}
+
 
