@@ -185,15 +185,6 @@ class Turret {
         if (this.canSell) {
             tidbits += this.sellAmount;
         }
-        if (this.unique && !this.banned) {
-            for (let i = 1; i < ownedTowers.length; i++) {
-                if (ownedTowers[i].name == this.name) {
-                    ownedTowers[i].unavailable = false;
-                    break;
-                }
-            }
-        }
-        this.onDestroy();
     }
 
     equipGizmo(gizmo, slot) {
@@ -292,6 +283,14 @@ class Turret {
             let p = new ScrapParticle(scrapBit, this.x, this.y, random(0, 360), 2, 1.75 * cos(r), 1.75 * sin(r), 0, -0.6, 0.3, this.color);
             addParticle(p);
         }
+        if (this.unique && !this.banned) {
+            for (let i = 1; i < ownedTowers.length; i++) {
+                if (ownedTowers[i].name == this.name) {
+                    ownedTowers[i].unavailable = false;
+                    break;
+                }
+            }
+        }
     }
 }
 
@@ -313,9 +312,23 @@ function removeTurret(x, y) {
         if (t.x == x && t.y == y) {
             turrets.splice(i, 1);
             removePlacement(t.x, t.y);
+            t.onDestroy();
+            clearButtons();
+            setupSidebarButtons();
+            if (t != selectedTurret) {
+                selectTower(selectedTurret.x, selectedTurret.y);
+            } else {
+                showInfo = false;
+                selectedTurret = null;
+            }
             break;
         }
     }
+}
+
+function sellTurret(t) {
+    t.onSell();
+    removeTurret(t.x, t.y);
 }
 
 function drawTurrets() {

@@ -319,8 +319,9 @@ function performRitual() {
         return;
     }
     if (ritual == 5) {
-        t.canSell = false;
+        removeTurret(t.x, t.y);
+    } else {
+        sellTurret(t);
     }
-    t.onSell();
     changeLives(ritual);
 }

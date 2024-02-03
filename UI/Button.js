@@ -592,13 +592,8 @@ class SellButton extends Button {
     }
 
     onClick() {
+        sellTurret(selectedTurret);
         turretButtonClicked = true;
-        selectedTurret.onSell();
-        showInfo = false;
-        removeTurret(selectedTurret.x, selectedTurret.y);
-        selectedTurret = null;
-        clearButtons();
-        setupSidebarButtons();
     }
     
 }
