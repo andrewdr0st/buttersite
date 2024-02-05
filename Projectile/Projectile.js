@@ -121,7 +121,6 @@ class BurstProjectile extends Projectile {
             for (let i = 0; i < this.burstSprites.length; i++) {
                 let p = new Projectile(this.burstSprites[i], this.burstDamage, this.speed, this.burstLifespan, this.burstRadius, false);
                 p.hitEnemies.push(this.hitEnemies[0]);
-                console.log(p.hitEnemies);
                 p.launch(this.x, this.y, this.r + this.burstAngles[i]);
                 projectiles.push(p);
             }

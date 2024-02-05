@@ -93,12 +93,12 @@ function setupTransmission() {
     tBoxW = 400;
     tBoxH = 140;
     tTiming = 0;
-    //pickTransmission();
-    currentTransmission = new CheaperMinersTransmission();
+    pickTransmission();
+    //currentTransmission = new UnstableGroundsTransmission();
 }
 
 function pickTransmission() {
-    if (currentPlanet == 0) {
+    if (currentPlanet == 1) {
         currentTransmission = new StartTransmission();
     } else if (currentPlanet == 5) {
         currentTransmission = new FinalTransmission();
@@ -119,7 +119,7 @@ function pickTransmission() {
 }
 
 function setupTransmissions() {
-    commonTransmissions = [new TowerConvertTransmission(), new EnergyTransmission()];
+    commonTransmissions = [new TowerConvertTransmission(), new EnergyTransmission(), new CheaperMinersTransmission(), new DrillTransmission(), new UnstableGroundsTransmission(), new AtmosphereDrainTransmission()];
     commonTransmissions = shuffle(commonTransmissions);
     rareTransmissions = [new RitualTransmission(), new HealthWealthTransmission()];
     rareTransmissions = shuffle(rareTransmissions);
@@ -154,7 +154,8 @@ class StartTransmission extends Transmission {
 class FinalTransmission extends Transmission {
     constructor() {
         super();
-        this.text = "Captain, you've reached the heart of enemy's base. The DEFENDAGON is ready to begin its detonation sequence. If you can survive for 10 waves, the DEFENDAGON should be properly primed and will be able to demolish the entire sector. The galaxy is counting on you.";
+        this.text = "Captain, you've reached the heart of the enemy's base. The DEFENDAGON is ready to begin its detonation sequence. If you can survive for 10 waves, the DEFENDAGON should be properly primed and will be able to demolish the entire sector. The galaxy is counting on you.";
+        this.choices = [0];
     }
 }
 
@@ -181,6 +182,30 @@ class CheaperMinersTransmission extends Transmission {
         super();
         this.text = "An odd, but durable material is scatterd around the planet. Some testing shows that it could be used to reduce the cost of building miners. It could also easily be converted into a polygon.";
         this.choices = [20, 17];
+    }
+}
+
+class DrillTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "There is an old quarry nearby containing an unusual mining drill. It could be powered on to quickly gain some tidbits, or it could be dismantled and examined to potentially improve your miners.";
+        this.choices = [21, 18];
+    }
+}
+
+class UnstableGroundsTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "The ground on this planet is slowly cracking apart. There are some polygons that could easily be grabbed, but doing so will disturb the ground even more, making it harder to build anything.";
+        this.choices = [22, 0];
+    }
+}
+
+class AtmosphereDrainTransmission extends Transmission {
+    constructor() {
+        super();
+        this.text = "This planet's rich atmosphere could be drained to create a large amount of life force. However, it would also expose your towers to harmful radition.";
+        this.choices = [23, 0];
     }
 }
 
@@ -262,6 +287,12 @@ function getTransmissionChoice(id, tower, enemy) {
         return new HealthSupplyChoice();
     } else if (id == 20) {
         return new CheapMinersChoice();
+    } else if (id == 21) {
+        return new DrillUpgradeChoice();
+    } else if (id == 22) {
+        return new UnstableChoice();
+    } else if (id == 23) {
+        return new DrainChoice();
     }
 }
 
@@ -270,6 +301,7 @@ class TransmissionChoice {
     constructor() {
         this.textSize = 26;
         this.polygons = 0;
+        this.lives = 0;
         this.supply = 0;
     }
 
@@ -530,6 +562,47 @@ class CheapMinersChoice extends TransmissionChoice {
     effect() {
         ownedTowers[0].cost -= 50;
         ownedTowers[0].baseCost -= 50;
+    }
+}
+
+class DrillUpgradeChoice extends TransmissionChoice {
+    getText() {
+        return "Miners produce 5 more tidbits each wave permanently";
+    }
+
+    effect() {
+        minerTidbitGain += 5;
+    }
+}
+
+class UnstableChoice extends TransmissionChoice {
+    constructor() {
+        super();
+        this.polygons = 3;
+        this.textSize = 22;
+    }
+
+    getText() {
+        return "Towers cannot be purchased on even-numbered waves";
+    }
+
+    effect() {
+
+    }
+}
+
+class DrainChoice extends TransmissionChoice {
+    constructor() {
+        super();
+        this.lives = 20;
+    }
+
+    getText() {
+        return "All towers occasionaly go haywire";
+    }
+
+    effect() {
+
     }
 }
 

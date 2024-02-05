@@ -894,21 +894,29 @@ class TransmissionButton extends Button {
             } else {
                 drawSprite(livesIcon, this.x + this.w * 0.6, this.y + this.h / 2 - uiScale * 3, 0, uiScale * 1.4);
             }
-        } else if (this.tChoice.polygons == 0) {
-            textAlign(CENTER, CENTER);
-            text(this.tChoice.getText(), this.x + 5 * uiScale, this.y + 5 * uiScale, this.w - 10 * uiScale, this.h - 10 * uiScale);
-        }  else {
+        } else if (this.tChoice.polygons > 0) {
             textAlign(CENTER, TOP);
             text(this.tChoice.getText(), this.x + 5 * uiScale, this.y + 12 * uiScale, this.w - 10 * uiScale, this.h - 10 * uiScale);
             textAlign(CENTER, CENTER);
             textSize(32 * uiScale);
             text("+" + this.tChoice.polygons, this.x + this.w * 0.4, this.y + this.h * 0.8);
             drawSprite(polygonIcon, this.x + this.w * 0.6, this.y + this.h * 0.77, 0, uiScale * 1.3);
+        } else if (this.tChoice.lives > 0) {
+            textAlign(CENTER, TOP);
+            text(this.tChoice.getText(), this.x + 5 * uiScale, this.y + 12 * uiScale, this.w - 10 * uiScale, this.h - 10 * uiScale);
+            textAlign(CENTER, CENTER);
+            textSize(32 * uiScale);
+            text("+" + this.tChoice.lives, this.x + this.w * 0.4, this.y + this.h * 0.8);
+            drawSprite(livesIcon, this.x + this.w * 0.6, this.y + this.h * 0.77, 0, uiScale * 1.3);
+        } else {
+            textAlign(CENTER, CENTER);
+            text(this.tChoice.getText(), this.x + 5 * uiScale, this.y + 5 * uiScale, this.w - 10 * uiScale, this.h - 10 * uiScale);
         }
     }
 
     onClick() {
         polygons += this.tChoice.polygons;
+        changeLives(this.tChoice.lives);
         this.tChoice.effect();
         clearButtons();
         showTransmission = false;

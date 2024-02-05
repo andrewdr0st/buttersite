@@ -315,7 +315,7 @@ function removeTurret(x, y) {
             t.onDestroy();
             clearButtons();
             setupSidebarButtons();
-            if (t != selectedTurret) {
+            if (t != selectedTurret && selectedTurret != null) {
                 selectTower(selectedTurret.x, selectedTurret.y);
             } else {
                 showInfo = false;
