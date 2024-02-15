@@ -924,3 +924,14 @@ class TransmissionButton extends Button {
         sidebarButtonsEnabled = true;
     }
 }
+
+class TowerSwitchButton extends Button {
+    draw() {
+        if (this.checkHover()) {
+            fill(120, 200, 170);
+        } else {
+            fill(100, 180, 150);
+        }
+        rect(this.x, this.y, this.w, this.h, this.w * 5);
+    }
+}
