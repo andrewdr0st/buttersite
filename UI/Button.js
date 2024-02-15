@@ -926,12 +926,81 @@ class TransmissionButton extends Button {
 }
 
 class TowerSwitchButton extends Button {
+    constructor(x, y, index) {
+        super(x, y, 30 * uiScale, 30 * uiScale);
+        this.index = index;
+    }
+
     draw() {
         if (this.checkHover()) {
-            fill(120, 200, 170);
+            fill(50, 150, 160);
         } else {
-            fill(100, 180, 150);
+            fill(30, 130, 140);
         }
-        rect(this.x, this.y, this.w, this.h, this.w * 5);
+        rect(this.x, this.y, this.w, this.h, this.w / 5);
+        fill(200, 200, 200);
+        rect(this.x + 5 * uiScale, this.y + 5 * uiScale, 15 * uiScale, 4 * uiScale);
+        rect(this.x + 5 * uiScale, this.y + 8 * uiScale, 4 * uiScale, 6 * uiScale);
+        triangle(this.x + 7 * uiScale, this.y + 18 * uiScale, this.x + 3 * uiScale, this.y + 13 * uiScale, this.x + 11 * uiScale, this.y + 13 * uiScale);
+        rect(this.x + 10 * uiScale, this.y + 21 * uiScale, 15 * uiScale, 4 * uiScale);
+        rect(this.x + 21 * uiScale, this.y + 16 * uiScale, 4 * uiScale, 6 * uiScale);
+        triangle(this.x + 23 * uiScale, this.y + 12 * uiScale, this.x + 27 * uiScale, this.y + 17 * uiScale, this.x + 19 * uiScale, this.y + 17 * uiScale);
+    }
+
+    onClick() {
+        tSwitchIndex = this.index;
+        setupWorkshopButtons();
+    }
+}
+
+class MiniTowerButton extends Button {
+    constructor(x, y, w, h, t, index, s) {
+        super(x, y, w, h);
+        this.t = t;
+        this.index = index;
+        this.r = t.canRotate ? -90 : 0;
+        this.hOffset = t.canRotate ? 0.6 : 0.5;
+        this.s = s;
+    }
+
+    draw() {
+        if (this.checkHover()) {
+            fill(175, 175, 175);
+        } else {
+            fill(140, 140, 140);
+        }
+        rect(this.x, this.y, this.w, this.h);
+        drawSprite(this.t.sprite, this.x + this.w / 2, this.y + this.h * this.hOffset, this.r, uiScale * this.s);
+    }
+
+    onClick() {
+        if (tSwitchIndex != this.index) {
+            let sTower = ownedTowers[tSwitchIndex];
+            if (sTower.gizmo1) {
+                for (let i = 0; i < ownedGizmos.length; i++) {
+                    if (ownedGizmos[i] == null) {
+                        ownedGizmos[i] = sTower.gizmo1;
+                        sTower.gizmo1 = null;
+                        break;
+                    }
+                }
+            }
+            if (sTower.gizmo2) {
+                for (let i = 0; i < ownedGizmos.length; i++) {
+                    if (ownedGizmos[i] == null) {
+                        ownedGizmos[i] = sTower.gizmo2;
+                        sTower.gizmo2 = null;
+                        break;
+                    }
+                }
+            }
+            sTower.calculateStats();
+            let temp = sTower;
+            ownedTowers[tSwitchIndex] = ownedTowers[this.index];
+            ownedTowers[this.index] = temp;
+            
+        }
+        tSwitchIndex = 0;
+        setupWorkshopButtons();
     }
 }

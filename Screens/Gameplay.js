@@ -13,6 +13,8 @@ var blueprints = false;
 var spareParts = false;
 
 var ritual = 0;
+var unstableGround = false;
+var allHaywire = false;
 
 function gameplaySetup() {
     clearButtons();
@@ -85,6 +87,8 @@ function leaveGameplay() {
     clearTurrets();
     enemyBonus = 1;
     ritual = 0;
+    unstableGround = false;
+    allHaywire = false;
     selectedTower = 0;
     placingTower = false;
     fastForward = false;

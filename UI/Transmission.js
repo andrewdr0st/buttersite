@@ -93,8 +93,8 @@ function setupTransmission() {
     tBoxW = 400;
     tBoxH = 140;
     tTiming = 0;
-    pickTransmission();
-    //currentTransmission = new UnstableGroundsTransmission();
+    //pickTransmission();
+    currentTransmission = new UnstableGroundsTransmission();
 }
 
 function pickTransmission() {
@@ -587,7 +587,7 @@ class UnstableChoice extends TransmissionChoice {
     }
 
     effect() {
-
+        unstableGround = true;
     }
 }
 
@@ -602,7 +602,7 @@ class DrainChoice extends TransmissionChoice {
     }
 
     effect() {
-
+        allHaywire = true;
     }
 }
 

@@ -3,6 +3,7 @@ var gizmoBoxes = [];
 var highlightedBoxInfo = [-1, -1];
 var selectedGizmo = null;
 var grabbedGizmoInfo = [-1, -1];
+var tSwitchIndex = 0;
 
 function workshopScreen() {
     background(55, 55, 70);
@@ -49,22 +50,74 @@ function drawWorkshopTowers() {
     let h = 200 * uiScale;
     let gap = 10 * uiScale;
     for (let i = 1; i < ownedTowers.length && i < 9; i++) {
-        let t = ownedTowers[i];
         let j = floor((i - 1) / 4);
         let k = (i - 1) % 4;
-        drawWorkshopTower(t, x + (w + gap) * k, y + (h + gap) * j, w, h);
+        if (i != tSwitchIndex) {
+            let t = ownedTowers[i];
+            drawWorkshopTower(t, x + (w + gap) * k, y + (h + gap) * j, w, h);
+        } else {
+            fill(85, 85, 85);
+            rect(x + (w + gap) * k, y + (h + gap) * j, w, h, 11.25 * uiScale);
+        }
     }
 }
 
 function setupWorkshopScreen() {
-    clearButtons();
+    tSwitchIndex = 0;
     setupGizmoBoxes();
+    setupWorkshopButtons();
+}
+
+function setupWorkshopButtons() {
+    clearButtons();
     let leftButton = new StoreScreenButton(0, 650 * uiScale, 280 * uiScale, 70 * uiScale, false);
     let rightButton = new MapScreenButton(1000 * uiScale, 650 * uiScale, 280 * uiScale, 70 * uiScale, true);
     leftButton.enabled = true;
     rightButton.enabled = true;
     addButton(leftButton);
     addButton(rightButton);
+    if (ownedTowers.length > 9) {
+        for (let i = 1; i < 9; i++) {
+            if (tSwitchIndex != i) {
+                let swapButton = new TowerSwitchButton((310 * ((i - 1) % 4) + 295) * uiScale, (210 * floor((i - 1) / 4) + 195) * uiScale, i);
+                swapButton.enabled = true;
+                addButton(swapButton);
+            }
+        }
+    }
+    if (tSwitchIndex > 0) {
+        if (ownedTowers.length > 12) {
+            let x = (46 + ((tSwitchIndex - 1) % 4) * 310) * uiScale;
+            let y = (29 + floor((tSwitchIndex - 1) / 4) * 210) * uiScale;
+            let w = 60 * uiScale;
+            let h = 60 * uiScale;
+            let gap = 6 * uiScale;
+            let mtb = new MiniTowerButton(x, y, w, h, ownedTowers[tSwitchIndex], tSwitchIndex, 0.8);
+            mtb.enabled = true;
+            addButton(mtb);
+            for (let i = 9; i < ownedTowers.length; i++) {
+                let j = i - 8;
+                mtb = new MiniTowerButton(x + (w + gap) * (j % 4), y + (h + gap) * floor(j / 4), w, h, ownedTowers[i], i, 0.8);
+                mtb.enabled = true;
+                addButton(mtb);
+            }
+        } else {
+            let x = (80 + ((tSwitchIndex - 1) % 4) * 310) * uiScale;
+            let y = (30 + floor((tSwitchIndex - 1) / 4) * 210) * uiScale;
+            let w = 90 * uiScale;
+            let h = 90 * uiScale;
+            let gap = 10 * uiScale;
+            let mtb = new MiniTowerButton(x, y, w, h, ownedTowers[tSwitchIndex], tSwitchIndex, 1);
+            mtb.enabled = true;
+            addButton(mtb);
+            for (let i = 9; i < ownedTowers.length; i++) {
+                let j = i - 8;
+                mtb = new MiniTowerButton(x + (w + gap) * (j % 2), y + (h + gap) * floor(j / 2), w, h, ownedTowers[i], i, 1);
+                mtb.enabled = true;
+                addButton(mtb);
+            }
+        }
+    }
 }
 
 function drawWorkshopTower(t, x, y, w, h) {
@@ -124,8 +177,8 @@ function setupGizmoBoxes() {
     let w = 300 * uiScale;
     let h = 200 * uiScale;
     let gap = 10 * uiScale;
-    for (let i = 0; i < 4; i++) {
-        for (let j = 0; j < 2; j++) {
+    for (let j = 0; j < 2; j++) {
+        for (let i = 0; i < 4; i++) {
             if (ownedTowers.length > i + j * 4 + 1) {
                 gizmoBoxes.push([x + (w + gap) * i + 26.25 * uiScale, y + (h + gap) * j + 135 * uiScale, i + j * 4 + 1, 0]);
                 gizmoBoxes.push([x + (w + gap) * i + 93.75 * uiScale, y + (h + gap) * j + 135 * uiScale, i + j * 4 + 1, 1]);
@@ -148,6 +201,11 @@ function highlightGizmoBox() {
     fill(200, 200, 195, 80);
     for (let i = 0; i < gizmoBoxes.length; i++) {
         let gb = gizmoBoxes[i];
+        if (tSwitchIndex > 0) {
+            if (tSwitchIndex * 2 - 1 == i || tSwitchIndex * 2 - 2 == i) {
+                continue;
+            }
+        }
         if (mouseX > gb[0] && mouseX < gb[0] + s && mouseY > gb[1] && mouseY < gb[1] + s) {
             rect(gb[0], gb[1], s, s, 10 * uiScale);
             highlightedBoxInfo = [gb[2], gb[3]];

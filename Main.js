@@ -75,6 +75,9 @@ function setup() {
     //obtainGizmo(getGizmo(28));
     //obtainGizmo(getGizmo(43));
     
+    //ownedTowers = [new Miner(), new Cannon(), new Sniper(), new MachineGunner(), new BigShot(), new Sentry(), new TriShooter(), new Glubba(), new IceBlaster(), new Shotgunner(), new PrototypeY(), new Splitter(), new WaveBreaker(),
+    //new Stinger(), new ShootingStar(), new HeatBlaster(), new SnowballLauncher(), new ScrapCannon(), new MiniCannon()];
+
     //currentScreen = "workshop";
     //setupWorkshopScreen();
 
