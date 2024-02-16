@@ -93,8 +93,8 @@ function setupTransmission() {
     tBoxW = 400;
     tBoxH = 140;
     tTiming = 0;
-    //pickTransmission();
-    currentTransmission = new UnstableGroundsTransmission();
+    pickTransmission();
+    //currentTransmission = new AtmosphereDrainTransmission();
 }
 
 function pickTransmission() {
@@ -104,10 +104,10 @@ function pickTransmission() {
         currentTransmission = new FinalTransmission();
     } else {
         let r = random(0, 1);
-        if (r < 0.4 && enemyTransmissionCount < 2) {
+        if (r < 0.35 && enemyTransmissionCount < 2) {
             currentTransmission = new EnemyBonusTransmission();
             enemyTransmissionCount++;
-        } else if (r > 0.85 && !rareTransmissionGot) {
+        } else if (r > 0.8 && !rareTransmissionGot) {
             currentTransmission = rareTransmissions[0];
             rareTransmissions.splice(0, 1);
             rareTransmissionGot = true;
@@ -119,9 +119,9 @@ function pickTransmission() {
 }
 
 function setupTransmissions() {
-    commonTransmissions = [new TowerConvertTransmission(), new EnergyTransmission(), new CheaperMinersTransmission(), new DrillTransmission(), new UnstableGroundsTransmission(), new AtmosphereDrainTransmission()];
+    commonTransmissions = [new TowerConvertTransmission(), new EnergyTransmission(), new CheaperMinersTransmission(), new DrillTransmission(), new UnstableGroundsTransmission()];
     commonTransmissions = shuffle(commonTransmissions);
-    rareTransmissions = [new RitualTransmission(), new HealthWealthTransmission()];
+    rareTransmissions = [new RitualTransmission(), new HealthWealthTransmission(), new AtmosphereDrainTransmission()];
     rareTransmissions = shuffle(rareTransmissions);
 }
 
@@ -603,6 +603,7 @@ class DrainChoice extends TransmissionChoice {
 
     effect() {
         allHaywire = true;
+        allHaywireTime = 15;
     }
 }
 

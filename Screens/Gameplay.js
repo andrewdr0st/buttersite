@@ -15,6 +15,7 @@ var spareParts = false;
 var ritual = 0;
 var unstableGround = false;
 var allHaywire = false;
+var allHaywireTime = 15;
 
 function gameplaySetup() {
     clearButtons();
@@ -94,6 +95,7 @@ function leaveGameplay() {
     fastForward = false;
     sigmaBonus = 0;
     massProductionValue = 0;
+    ownedTowers[0].banned = false;
     for (let i = 1; i < ownedTowers.length; i++) {
         ownedTowers[i].unavailable = false;
         ownedTowers[i].unique = false;
@@ -115,6 +117,11 @@ function endWave() {
         tidbits += tidbitsPerWave;
         if (ritual > 0) {
             performRitual();
+        }
+        if (unstableGround) {
+            for (let i = 0; i < ownedTowers.length; i++) {
+                ownedTowers[i].banned = (waveCount % 2) == 0;
+            }
         }
         turretsStartOfTurn();
         waveInProgress = false;

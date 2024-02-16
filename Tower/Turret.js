@@ -111,7 +111,6 @@ class Turret {
             return;
         }
         if (this.shortCircuit && waveInProgress) {
-            console.log(this.scCount)
             this.scCount -= deltaTime;
             if (this.scCount <= 0) {
                 this.goHaywire(random(1.25, 2));
@@ -355,6 +354,15 @@ function checkTurretsHover() {
 function updateTurrets() {
     for (let i = 0; i < turrets.length; i++) {
         turrets[i].update();
+    }
+    if (allHaywire && waveInProgress) {
+        allHaywireTime -= deltaTime;
+        if (allHaywireTime < 0) {
+            for (let i = 0; i < turrets.length; i++) {
+                turrets[i].goHaywire(random(1, 2));
+            }
+            allHaywireTime = random(15, 20);
+        }
     }
 }
 
