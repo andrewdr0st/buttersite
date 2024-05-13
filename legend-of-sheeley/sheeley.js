@@ -41,6 +41,7 @@ function setup() {
     gameScale = maxSize / 400;
     if (onPhone) {
         createCanvas(maxSize, windowHeight);
+        setupPhoneButtons();
     } else {
         createCanvas(maxSize, maxSize);
     }
@@ -9214,7 +9215,8 @@ var selectButton = function() {
         } else if (currentScreen === "gameOver") {
             //resetGame();
             //currentScreen = "move";
-            Program.restart();
+            //Program.restart();
+            location.reload();
         } else if (currentScreen === "skillTree") {
             if (menuPosY !== 0 && skillPoints > 0) {
                 var t;
@@ -9545,7 +9547,7 @@ var movePlayer = function(speed) {
     var m = movementKeys();
     var bounds = bindPlayerToMap();
     
-    if (keys[16]) {
+    if (keys[16] || onPhone) {
         speed++;
         if (artifactEquipped(18)) {
             speed++;
@@ -9771,19 +9773,183 @@ draw = function() {
 
     pop();
 
-if (onPhone) {
-    fill(20, 20, 20);
-    rect(0, width, width, height - width);
-}
+    if (onPhone) {
+        fill(20, 20, 20);
+        rect(0, width, width, height - width);
+        drawPhoneButtons();
+    }
 
 };
 
+function pointInCircle(a, b, x, y, r) {
+    var distPoints = (a - x) * (a - x) + (b - y) * (b - y);
+    r *= r;
+    if (distPoints < r) {
+        return true;
+    }
+    return false;
+};
+
+var abx, aby, abr;
+var bbx, bby, bbr;
+var mgx, mgy, mgs, mgsp, mgw, mgh;
+
+function setupPhoneButtons() {
+    let mx = width / 2;
+    let my = (height - width) / 2 + width;
+    abr = width / 8;
+    abx = width - abr - 5;
+    aby = my - abr - 5;
+    bbr = width / 8;
+    bbx = mx + bbr + 25;
+    bby = my + bbr + 5;
+    mgs = mx / 3;
+    mgsp = 4;
+    mgx = 2;
+    mgy = my - mgs * 1.5 - mgsp;
+    mgw = mgs * 3 + mgsp * 2;
+    mgh = mgs * 3 + mgsp * 2;
+}
+
+function drawPhoneButtons() {
+    textAlign(CENTER, CENTER);
+    if (keys[selectKey]) {
+        fill(120, 120, 120);
+    } else {
+        fill(170, 170, 170);
+    }
+    ellipse(abx, aby, abr * 2, abr * 2);
+    fill(20, 20, 20);
+    textSize(abr);
+    text("A", abx, aby);
+    if (keys[backKey]) {
+        fill(120, 120, 120);
+    } else {
+        fill(170, 170, 170);
+    }
+    ellipse(bbx, bby, bbr * 2, bbr * 2);
+    fill(20, 20, 20);
+    textSize(bbr);
+    text("B", bbx, bby);
+    textAlign(LEFT, BASELINE);
+    let k = 0;
+    if (keys[upKey] && keys[leftKey]) {
+        k = 1;
+    } else if (keys[upKey] && keys[rightKey]) {
+        k = 3;
+    } else if (keys[downKey] && keys[leftKey]) {
+        k = 6;
+    } else if (keys[downKey] && keys[rightKey]) {
+        k = 8;
+    } else if (keys[upKey]) {
+        k = 2;
+    } else if (keys[downKey]) {
+        k = 7;
+    } else if (keys[rightKey]) {
+        k = 5;
+    } else if (keys[leftKey]) {
+        k = 4;
+    }
+    kFill(k == 1);
+    rect(mgx, mgy, mgs, mgs);
+    kFill(k == 2);
+    rect(mgx + mgsp + mgs, mgy, mgs, mgs);
+    kFill(k == 3);
+    rect(mgx + (mgsp + mgs) * 2, mgy, mgs, mgs);
+    kFill(k == 4);
+    rect(mgx, mgy + mgsp + mgs, mgs, mgs);
+    kFill(k == 5);
+    rect(mgx + (mgsp + mgs) * 2, mgy + mgsp + mgs, mgs, mgs);
+    kFill(k == 6);
+    rect(mgx, mgy + (mgsp + mgs) * 2, mgs, mgs);
+    kFill(k == 7);
+    rect(mgx + mgsp + mgs, mgy + (mgsp + mgs) * 2, mgs, mgs);
+    kFill(k == 8);
+    rect(mgx + (mgsp + mgs) * 2, mgy + (mgsp + mgs) * 2, mgs, mgs);
+}
+
+function kFill(kCond) {
+    if (kCond) {
+        fill(120, 120, 120);
+    } else {
+        fill(170, 170, 170);
+    }
+}
+
 function mousePressed() {
-    console.log("heyo");
+    if (onPhone) {
+        if (pointInCircle(mouseX, mouseY, abx, aby, abr)) {
+            pressKey(selectKey);
+        }
+        if (pointInCircle(mouseX, mouseY, bbx, bby, bbr)) {
+            pressKey(backKey);
+        }
+        if (mouseX > mgx && mouseX < mgx + mgw && mouseY > mgy && mouseY < mgy + mgh) {
+            if (mouseX < mgx + mgs) {
+                pressKey(leftKey);
+            } else if (mouseX > mgx + (mgs + mgsp) * 2) {
+                pressKey(rightKey);
+            }
+            if (mouseY < mgy + mgs) {
+                pressKey(upKey);
+            } else if (mouseY > mgy + (mgs + mgsp) * 2) {
+                pressKey(downKey);
+            }
+        }
+    }
+}
+
+function mouseDragged() {
+    if (onPhone) {
+        if (!pointInCircle(mouseX, mouseY, abx, aby, abr)) {
+            releaseKey(selectKey);
+        }
+        if (!pointInCircle(mouseX, mouseY, bbx, bby, bbr)) {
+            releaseKey(backKey);
+        }
+        if (mouseX > mgx && mouseX < mgx + mgw && mouseY > mgy && mouseY < mgy + mgh) {
+            if (mouseX < mgx + mgs) {
+                if (!keys[leftKey]) {
+                    pressKey(leftKey);
+                }
+            } else if (mouseX > mgx + (mgs + mgsp) * 2) {
+                if (!keys[rightKey]) {
+                    pressKey(rightKey);
+                }
+            } else {
+                releaseKey(leftKey);
+                releaseKey(rightKey);
+            }
+            if (mouseY < mgy + mgs) {
+                if (!key[upKey]) {
+                    pressKey(upKey);
+                }
+            } else if (mouseY > mgy + (mgs + mgsp) * 2) {
+                if (!keys[downKey]) {
+                    pressKey(downKey);
+                }
+            } else {
+                releaseKey(upKey);
+                releaseKey(downKey);
+            }
+        } else {
+            releaseKey(upKey);
+            releaseKey(downKey);
+            releaseKey(leftKey);
+            releaseKey(rightKey);
+        }
+    }
 }
 
 function mouseReleased() {
-    console.log("byeo");
+    if (onPhone) {
+        releaseKey(upKey);
+        releaseKey(downKey);
+        releaseKey(leftKey);
+        releaseKey(rightKey);
+        releaseKey(selectKey);
+        releaseKey(backKey);
+    }
 }
 
 
