@@ -53,7 +53,10 @@ function setup() {
         if (event.altKey) {
             event.preventDefault();
         }
-    });    
+    });
+    document.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    }, { passive: false });  
 
     golfBallLocation = floor(random(0,4));
 }
