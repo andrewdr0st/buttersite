@@ -5213,8 +5213,8 @@ var startTurn = function() {
             }
         }
     }
-        if (turnCount === 2 && artifactEquipped(31)) {
-        playerBlockGain += playerBlockGain + playerB;
+    if (turnCount === 2 && artifactEquipped(31)) {
+        playerB += playerB * 2;
     }
     if (playerBlockGain > 0) {
         playerB += playerBlockGain;
