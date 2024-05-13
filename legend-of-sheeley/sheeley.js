@@ -4768,7 +4768,7 @@ var drawDesertShop = function() {
         }
         textSize(20);
         fill(0, 0, 0, 200);
-        textAlign(CENTER, BASELINE);
+        textAlign(CENTER, CENTER);
         text(t, 200, 345);
         textAlign(LEFT, BASELINE);
     }
@@ -4885,7 +4885,7 @@ var drawFoodShop = function(){
         }
         textSize(20);
         fill(0, 0, 0, 200);
-        textAlign(CENTER, BASELINE);
+        textAlign(CENTER, CENTER);
         text(t, 200, 345);
         textAlign(LEFT, BASELINE);
     }
