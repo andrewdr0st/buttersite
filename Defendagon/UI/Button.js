@@ -149,6 +149,10 @@ class PlayButton extends SidebarButton {
     }
 
     onClick() {
+        if (!songPlaying) {
+            combatSong1Intro.play();
+            songPlaying = true;
+        }
         if (!waveInProgress) {
             beginSpawning();
             waveInProgress = true;
@@ -240,6 +244,7 @@ class LaunchButton extends SidebarButton {
             }
         } else {
             if (!this.final) {
+                combatSong1Body.fade(1.0, 0.0, 300);
                 leaveGameplay();
             }
         }

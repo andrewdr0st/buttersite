@@ -23,6 +23,10 @@ function mapScreen() {
 }
 
 function setupMapScreen() {
+    if (!songPlaying) {
+        workshopSongIntro.play();
+        songPlaying = true;
+    }
     clearButtons();
     let leftButton = new WorkshopScreenButton(0, 650 * uiScale, 280 * uiScale, 70 * uiScale, false);
     let rightButton = new StoreScreenButton(1000 * uiScale, 650 * uiScale, 280 * uiScale, 70 * uiScale, true);

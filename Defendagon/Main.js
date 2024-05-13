@@ -40,6 +40,8 @@ function setup() {
 
     createCanvas(tileSize * 12 / 9 * 16, tileSize * 12);
 
+    setupAudio();
+
     galaxyRotation = random(0, 360);
 
     ownedTowers = [new Miner(), new Cannon()];
