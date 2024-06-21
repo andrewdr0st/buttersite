@@ -1,8 +1,17 @@
 var alienColors = [];
 var muteColors = [];
 
+var gameScale = 1;
+
 function setup() {
-	createCanvas(625, 750);
+    let maxWidth = min(windowWidth, 750);
+    let maxHeight = min(windowHeight, 900);
+    if (maxHeight / 1.2 < maxWidth) {
+        gameScale = maxHeight / 600;
+    } else {
+        gameScale = maxWidth / 500;
+    }
+    createCanvas(500 * gameScale, 600 * gameScale);
 	noStroke();
 	angleMode(DEGREES);
 
@@ -25,7 +34,14 @@ function setup() {
 
 	muteColors = [color(210, 210, 210), color(240, 240, 240)];
 
-
+    if (document.cookie != null) {
+        try {
+            bestScore = parseInt(document.cookie.split("=")[1]);
+        } catch (e) {
+            console.log("cookie error");
+            bestScore = 0;
+        }
+    }
 }
 
 var laserScale = 8;
@@ -167,7 +183,7 @@ var Button = function(x, y, w, h, t, f) {
 };
 
 Button.prototype.checkHover = function() {
-    return (mouseX > this.x * 1.25 && mouseX < (this.x + this.w) * 1.25 && mouseY > this.y * 1.25 && mouseY < (this.y + this.h) * 1.25);
+    return (mouseX > this.x * gameScale && mouseX < (this.x + this.w) * gameScale && mouseY > this.y * gameScale && mouseY < (this.y + this.h) * gameScale);
 };
 
 Button.prototype.draw = function() {
@@ -198,10 +214,10 @@ Button.prototype.onClick = function() {
 
 
 var getMouseAngle = function() {
-    if (mouseY > 557 * 1.25) {
+    if (mouseY > 557 * gameScale) {
         return lastMouseR;
     } else {
-        var r = atan2(mouseY - 558 * 1.25, mouseX - 250 * 1.25) + 90;
+        var r = atan2(mouseY - 558 * gameScale, mouseX - 250 * gameScale) + 90;
         r = constrain(r, -80, 80);
         lastMouseR = r;
         return r;
@@ -753,6 +769,9 @@ var exitButton = new Button(170, 305, 160, 40, "Exit", exitBClicked);
 var endGame = function() {
     gameOver = true;
     bestScore = max(bestScore, aliensKilled);
+    const date = new Date();
+    date.setTime(date.getTime() + (720 * 24 * 60 * 60 * 1000));
+    document.cookie = "bestScore=" + bestScore + "; expires=" + date.toUTCString() + ";";
     buttonList = [restartButton, exitButton];
 };
 
@@ -817,7 +836,7 @@ draw = function() {
 	Howler.mute(gameMuted);
 
 	push();
-	scale(1.25);
+	scale(gameScale);
 	
     background(22, 30, 56);
 
@@ -966,39 +985,41 @@ draw = function() {
 	        b.draw();
 	    }
 	}
-	pop();
 
-	if (mouseX > 585 && mouseY > 710) {
+    if (mouseX > 468 * gameScale && mouseY > 568 * gameScale) {
 		muteColor = 1;
 	} else {
 		muteColor = 0;
 	}
-	
-	fill(muteColors[muteColor]);
-	rect(585, 710, 45, 45, 5);
+
+    fill(muteColors[muteColor]);
+	rect(468, 568, 35, 35, 5);
 	if (gameMuted) {
 		fill(100, 100, 100);
-		textSize(24);
-		text("x", 609, 737);
+		textSize(20);
+		text("x", 488, 590);
 	} else {
 		fill(100, 100, 100);
-		ellipse(605, 731, 30, 30);
+		ellipse(484, 585, 24, 24);
 		fill(muteColors[muteColor]);
-		ellipse(605, 731, 25, 25);
+		ellipse(484, 585, 20, 20);
 		fill(100, 100, 100);
-		ellipse(605, 731, 20, 20);
+		ellipse(484, 585, 16, 16);
 		fill(muteColors[muteColor]);
-		ellipse(605, 731, 15, 15);
-		quad(605, 731, 617, 714, 589, 714, 589, 731);
-		quad(605, 731, 617, 746, 589, 746, 589, 731);
+		ellipse(484, 585, 12, 12);
+		quad(484, 585, 494, 571, 471, 571, 471, 585);
+		quad(484, 585, 494, 597, 471, 597, 471, 585);
 	}
 	fill(100, 100, 100);
-	rect(593, 726, 8, 10);
-	quad(601, 726, 601, 736, 608, 741, 608, 721);
+	rect(476, 581, 6, 8);
+	quad(481, 581, 481, 589, 486, 593, 486, 577);
+
+	pop();
+	
 };
 
 mouseClicked = function() {
-	if (mouseX > 585 && mouseY > 710) {
+	if (mouseX > 468 * gameScale && mouseY > 568 * gameScale) {
 		gameMuted = !gameMuted;
 		return;
 	}
