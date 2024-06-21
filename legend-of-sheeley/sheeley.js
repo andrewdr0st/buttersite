@@ -2119,8 +2119,8 @@ var drawSprite = function(x, y, s, f, c) {
         "Start each combat with 5 poison.",
         "Gain 4 block whenever you attack.",
         "Gain +2 energy each turn.",
-        "+20% crit damage.",
-        "+7% crit chance.",
+        "+25% crit damage.",
+        "+10% crit chance.",
         "Gain 15 energy at the start of combat.",
         "+20HP. +10% crit damage. +5 max energy. Gain +1 energy each turn.",
         "When you attack, apply 5 posion to the enemy if they have any wound.",
@@ -2129,7 +2129,7 @@ var drawSprite = function(x, y, s, f, c) {
         "If you have at least 25 block, attacks deal 25% more damage.",
         "If you have at least 50 energy, attacks deal 25% more damage.",
         "Gain jigsaw armor. Jigsaw armor has the abilities of all armor that you own.",
-        "+15% crit chance. +25% crit damage. Burn a random skill each turn.",
+        "+25% crit chance. +25% crit damage. Burn a random skill each turn.",
         "At the start of each turn, you have a chance to gain 6 HP and 4 energy equal to your critical chance."
     ];
     
@@ -3347,7 +3347,7 @@ var damagePlayer = function(amount) {
         var poisonDustEffect = function() {
             enemyB += 10;
             playerPoison += 3;
-            battleText += "The unfungut applied 3 poison and gained 10 block";
+            battleText += "The unfunguy applied 3 poison and gained 10 block";
         };
         var poisonDust = new ESkill("Poison Dust", poisonDustEffect, 1);
         var redUnfunguyE = ["unfunguy", redUnfunguy, 140, 400, 25, spore, headBonk, poisonDust];
@@ -5152,7 +5152,7 @@ var setupPlayer = function() {
     if (artifactEquipped(22)) {
         playerPoison += 5;
     }
-    if (artifactEquipped(25)) {
+    if (artifactEquipped(27)) {
         playerE += 15;
     }
     ogSkills = [activeSkills[4], activeSkills[5], activeSkills[6]];
@@ -9362,14 +9362,14 @@ var selectButton = function() {
                 playerEGAIN -= 2;
             }
             if (newSet[4] && !prevSet[4]) {
-                critPower += 20;
+                critPower += 25;
             } else if (!newSet[4] && prevSet[4]) {
-                critPower -= 20;
+                critPower -= 25;
             }
             if (newSet[5] && !prevSet[5]) {
-                critChance += 7;
+                critChance += 10;
             } else if (!newSet[5] && prevSet[5]) {
-                critChance -= 7;
+                critChance -= 10;
             }
             if (newSet[6] && !prevSet[6]) {
                 playerMAXE += 5;
@@ -9384,10 +9384,10 @@ var selectButton = function() {
                 playerHP = min(playerHP, playerMAXHP);
             }
             if (newSet[7] && !prevSet[7]) {
-                critChance += 15;
+                critChance += 25;
                 critPower += 25;
             } else if (!newSet[7] && prevSet[7]) {
-                critChance -= 15;
+                critChance -= 25;
                 critPower -= 25;
             }
             if (newSet[8] && !prevSet[8]) {
