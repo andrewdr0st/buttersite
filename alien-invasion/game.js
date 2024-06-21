@@ -34,9 +34,12 @@ function setup() {
 
 	muteColors = [color(210, 210, 210), color(240, 240, 240)];
 
-    if (document.cookie != null) {
+    if (document.cookie != null && document.cookie != "") {
         try {
             bestScore = parseInt(document.cookie.split("=")[1]);
+            if (isNan(bestScore)) {
+                bestScore = 0;
+            }
         } catch (e) {
             console.log("cookie error");
             bestScore = 0;
