@@ -34,16 +34,11 @@ function setup() {
 
 	muteColors = [color(210, 210, 210), color(240, 240, 240)];
 
-    if (document.cookie != null && document.cookie != "") {
-        try {
-            bestScore = parseInt(document.cookie.split("=")[1]);
-            if (isNan(bestScore)) {
-                bestScore = 0;
-            }
-        } catch (e) {
-            console.log("cookie error");
-            bestScore = 0;
-        }
+    let s = localStorage.getItem("best-score");
+    if (s) {
+        bestScore = parseInt(s);
+    } else {
+        console.log("No score found");
     }
 }
 
@@ -772,9 +767,7 @@ var exitButton = new Button(170, 305, 160, 40, "Exit", exitBClicked);
 var endGame = function() {
     gameOver = true;
     bestScore = max(bestScore, aliensKilled);
-    const date = new Date();
-    date.setTime(date.getTime() + (720 * 24 * 60 * 60 * 1000));
-    document.cookie = "bestScore=" + bestScore + "; expires=" + date.toUTCString() + ";";
+    localStorage.setItem("best-score", bestScore);
     buttonList = [restartButton, exitButton];
 };
 
