@@ -4,3 +4,71 @@ html, body {
     background:black;
 }
 
+.game-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: 100%;
+    max-width: 750px;
+    box-sizing: border-box;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;   
+    background-color: #676770;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.game-card:hover {
+    background-color: #707078;
+}
+
+.left-column {
+    flex: 0 0 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.left-column img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover; 
+}
+
+.right-column {
+    flex-grow: 1;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    justify-content: center;
+}
+
+.right-column h2 {
+    margin: 0;
+    font-size: 2em;
+    color: #e0e0d0;
+}
+
+.right-column p {
+    margin: 15px 0 0;
+    font-size: 1.25em;
+    color: #e0e0d0;
+}
+
+.clickable-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .clickable-row {
+        flex-direction: column;
+    }
+
+    .game-card {
+        margin-bottom: 20px;
+    }
+}
