@@ -23,6 +23,7 @@ function setup() {
     noStroke();
 
     calculateDeltaTime();
+    spinner.spin(random(1000, 1250));
 }
 
 function draw() {
@@ -30,6 +31,7 @@ function draw() {
 
     drawBackground();
 
+    spinner.update();
     spinner.draw();
 }
 
