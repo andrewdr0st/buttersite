@@ -1,0 +1,142 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+#processCanvas {
+    display: none;
+}
+
+#displayContainer {
+    flex: 7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #050910;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+@media only screen and (max-width: 600px) {
+    .container {flex-direction: column;}
+}
+
+.left-container {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+}
+
+.button-row {
+    display: flex;
+    flex: 1;
+    background-color: #2a2d31;
+}
+
+.effect-header {
+    background-color: #2a2d31;
+    color: white;
+    font-size: 24px;
+    width: 100%;
+    padding: 12px 0px;
+    text-align: center;
+}
+
+.right-container {
+    flex: 1;
+    background-color: #474c53;
+}
+
+#effectList {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.effect-box {
+    width: 95%;
+    margin-top: 10px;
+    background-color: #9db5c4;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.2);
+}
+
+.effect-box-row {
+    padding-left: 5%;
+    margin-bottom: 5px;
+}
+
+.effect-box-title {
+    padding-top: 5px;
+    padding-bottom: 3px;
+    font-size: 18px;
+    background-color: #829dad;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+}
+
+.value-slider {
+    appearance: none;
+    margin-left: 10px;
+    width: 50%;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+
+.value-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #20A0F0;
+    cursor: pointer;
+}
+
+.value-number {
+    margin-left: 10px;
+    width: 10%
+}
+
+.value-number::-webkit-outer-spin-button, .value-number::-webkit-inner-spin-button {
+    appearance: none;
+    margin: 0;
+}
+
+.color-input {
+    visibility: collapse;
+    width: 0;
+}
+
+.color-picker {
+    margin-left: 25px;
+    background-color: white;
+    color: transparent;
+    border: 1px solid black;
+    user-select: none;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#importImage {
+    display: none;
+}
+
+.import-button {
+    display: inline-block;
+    padding: 30px 25px;
+    margin: 5px;
+    background-color: #20A0F0;
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 4px;
+}
+
